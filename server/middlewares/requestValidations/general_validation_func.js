@@ -1,44 +1,47 @@
-import registerValidation from "./registerRequestValidation/index.js"
-import loginValidation from "./loginRequestValidation/index.js"
 
-export default function register_login_validation(req,res,next){
+// function for validated the body created whit express.json() in the request, and for knowing if it is LOGIN OR REGISTER dependin in the number of proprties
+// it returns an object whit an error propertie if there is anny or an object whit the type of process (login or register) and no error
+export default function general_validation(data){
 
+    
+    let validationPayload={}
 
-    if(req.body){
-        if(Object.keys(req.body).length > 0){
+    if(data){
+        
 
-            if(req.body.email && req.body.password && req.body.name && req.body.last_name){
+        if(Object.keys(data).length === 4){
+            
+            validationPayload.type = "register"
+        
+        }
+        else if(Object.keys(data).length === 2){
 
-                registerValidation(req.body,next)
-
-            }
-            else if(req.body.email && req.body.password){
-
-                loginValidation(req.body, next)
-
-            }
-            else{
-                const error = new Error("wrong properties in the request")
-                error.status = 400
-                next(error)
-
-            }
+            validationPayload.type="login"
 
         }
         else{
-
-            const error = new Error("no properties in request, send only json data and header type (application/json)")
-            error.status = 400
-            next(error)
+            validationPayload.error = true
+           validationPayload.message = "wrong properties in the request"
+           validationPayload.status = 400
+                
 
         }
-
     }
+
+        
     else{
+        validationPayload.error = true
+        validationPayload.error.message = "no properties in request, send only json data and header type (application/json)"
+        validationPayload.error.status = 400
 
-        const error = new Error("bad request")
-        error.status = 400
-        next(error)
+
+            
+
     }
+
+    return validationPayload
+
+    
+    
 
 }

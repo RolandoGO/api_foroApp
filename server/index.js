@@ -1,5 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
+dotenv.config()
+
 import corsConfig from "./middlewares/cors/index.js"
 import globalErrorHandler from "./middlewares/herrorHandlers/globalHerrorHandler.js"
 //database import
@@ -26,7 +28,6 @@ const PORT = process.env.PORT || 5000
 //configuration ---------
 app.use(corsConfig)
 app.use(express.json())
-dotenv.config()
 
 
 //routes---------------

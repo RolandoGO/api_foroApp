@@ -1,10 +1,10 @@
 import express from "express"
-import register_login_validation from "../../middlewares/requestValidations/general_validation_func.js"
+import registerValidation from "../../middlewares/requestValidations/registerRequestValidation/index.js"
 import registerControl from "../../controls/registerControl/index.js"
 const Route = express.Router()
 
 
-Route.post("/", register_login_validation, registerControl )
+Route.post("/", registerValidation, registerControl )
 
 
 export default Route
