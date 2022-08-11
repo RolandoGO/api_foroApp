@@ -16,6 +16,7 @@ import UserModel from "./models/UserModel.js"
 import landingPageRoute from "./routes/landingPageRoute/index.js"
 import foroRoute from "./routes/foroRoutes/index.js"
 import loginRoute from "./routes/login/index.js"
+import registerRoute from "./routes/register/index.js"
 
 
 //framework initialization-----
@@ -30,6 +31,7 @@ dotenv.config()
 
 //routes---------------
 app.use("/login", loginRoute)
+app.use("/register", registerRoute)
 
 app.use("/landingPage", landingPageRoute )
 app.use("/foro", foroRoute)
@@ -51,15 +53,15 @@ async function starting(){
         //database conection and tables creation....
 
         await db.authenticate();
-        await db.sync({ alter: true })
-        console.log("connected to the database!!")
+        await db.sync()
+        console.log("conected to the database!!")
         
 
         app.listen(PORT, ()=>console.log("server runnin in port " + PORT))
     }
     catch(error){
 
-        console.log("Unable to connect to the database")
+        console.log("Unable to connect to the database " + error )
 
     }
 } 
