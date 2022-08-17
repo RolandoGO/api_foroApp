@@ -19,7 +19,10 @@ import landingPageRoute from "./routes/landingPageRoute/index.js"
 import foroRoute from "./routes/foroRoutes/index.js"
 import loginRoute from "./routes/login/index.js"
 import registerRoute from "./routes/register/index.js"
+import logoutRoute from "./routes/logout/index.js"
 
+//import middleware to check login status of user request
+import requestTokenCheck from "./utils/requestTokenCheck.js"
 
 //framework initialization-----
 const app= express()
@@ -32,10 +35,13 @@ app.use(express.json())
 
 //routes---------------
 app.use("/login", loginRoute)
+app.use("/logout", logoutRoute)
+
 app.use("/register", registerRoute)
 
 app.use("/landingPage", landingPageRoute )
-app.use("/foro", foroRoute)
+
+app.use("/foro", requestTokenCheck, foroRoute)
 
 app.use((req,res,next)=>{
 
@@ -54,7 +60,9 @@ async function starting(){
         //database conection and tables creation....
 
         await db.authenticate();
+        
         await db.sync()
+        // await db.drop()
         console.log("conected to the database!!")
         
 

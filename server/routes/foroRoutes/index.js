@@ -2,7 +2,7 @@ import express from "express"
 const Route = express.Router()
 
 //route for fetchin all the posts fo all the users for the main page
-Route.get("/", (req,res)=> res.send("welcome to the foro main page"))
+Route.get("/", (req,res)=> res.json({message:"welcome to the foro main page", body: req.body}))
 
 //route for fetchin all the  posts from that user
 Route.get("/userposts/:id", (req,res)=> res.send("welcome to the user foro "+ req.params.id))

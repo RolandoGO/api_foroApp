@@ -1,0 +1,1 @@
+// function that checks in every request that the user is login searchig the isLogIn propertie in the db and testing the jwt validation

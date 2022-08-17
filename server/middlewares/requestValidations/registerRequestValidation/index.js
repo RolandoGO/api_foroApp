@@ -15,9 +15,9 @@ export default function registerValidation(req,res, next){
     else{
 
         if(validation.type==="register"){
-            const regexName = /[\w]{1,100}/
+            const regexName = /^[a-zA-Z ]{1,100}$/
             const regexEmail = /^([\w\d\.\-_]+)@([\w\d\-_]+)\.[\w]{2,8}(\.[\w]{2,8})?$/
-            const regexPassword = /[\w\d]{5,15}/
+            const regexPassword = /^[\w\d]{5,15}$/
 
             if(regexEmail.test(data.email) && regexPassword.test(data.password) && regexName.test(data.name) && regexName.test(data.last_name)){
             

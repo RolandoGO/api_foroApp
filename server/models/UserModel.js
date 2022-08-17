@@ -35,8 +35,7 @@ const Users = db.define("users", {
     },
     isLogIn:{
       type: Sequelize.BOOLEAN,
-      defaultValue:false,
-      allowNull:false
+      defaultValue:false
     }
     
     
