@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 dotenv.config()
-import Users from "../models/UserModel.js"
+import Users from "../../models/UserModel.js"
 
 
 // function that takes the token in the headers of the request that the user has, and decode if it is the same token that was created in the login 
