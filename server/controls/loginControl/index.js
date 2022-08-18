@@ -50,7 +50,7 @@ export default async function loginControl(req,res,next){
         }
         else{
             //ERRORS IN THE FINDING OF THE USER
-            const error = new Error("no user found, you have to register first")
+            const error = new Error("you have to register first")
             error.status=403
             next(error)
         }
