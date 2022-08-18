@@ -33,7 +33,7 @@ export default async function registerControl(req,res,next){
             //anny errors like duplicate email or null data are catch in here
             .catch(error=>{
                 
-                const err = new Error(error.parent.sqlMessage || "database validation error")
+                const err = new Error(error.parent.sqlMessage || "database error, cant created user")
                 err.status = 500
                 next(err)
             })
