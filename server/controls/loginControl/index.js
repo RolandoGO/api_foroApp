@@ -53,7 +53,6 @@ export default async function loginControl(req,res,next){
 
             const error = new Error("no user found, you have to register first")
             error.status=403
-
             next(error)
         }
     })
