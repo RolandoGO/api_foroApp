@@ -32,7 +32,9 @@ export default async function loginControl(req,res,next){
                 }
                 //ERRORS IN THE PASSWORD MATCHIN
                 else{
-                    res.json({message:"wrong password"})
+                    const error = new Error("incorrect password")
+                    error.status = 401
+                    next(error)
                 }
 
             });
@@ -41,7 +43,7 @@ export default async function loginControl(req,res,next){
         else{
             //ERRORS IN THE FINDING OF THE USER
             const error = new Error("no user found, you have to register first")
-            error.status=400
+            error.status=403
             next(error)
         }
     })

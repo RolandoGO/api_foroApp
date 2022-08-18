@@ -29,13 +29,13 @@ const Posts = db.define("posts", {
       hooks: true 
        
     })
-  Comments.hasOne(Posts,
-    {
-      onDelete: 'cascade',
-      foreignKey: { allowNull: false },
-      hooks: true 
+  // Comments.hasOne(Posts,
+  //   {
+  //     onDelete: 'cascade',
+  //     foreignKey: { allowNull: false },
+  //     hooks: true 
        
-    })
+  //   })
 
   
 export default Posts

@@ -22,7 +22,7 @@ import registerRoute from "./routes/register/index.js"
 import logoutRoute from "./routes/logout/index.js"
 
 //import middleware to check login status of user request
-import requestTokenCheck from "./utils/requestTokenCheck.js"
+import requestTokenCheck from "./middlewares/auth/requestTokenCheck.js"
 
 //framework initialization-----
 const app= express()
@@ -35,7 +35,7 @@ app.use(express.json())
 
 //routes---------------
 app.use("/login", loginRoute)
-app.use("/logout", logoutRoute)
+app.use("/logout",requestTokenCheck, logoutRoute)
 
 app.use("/register", registerRoute)
 
