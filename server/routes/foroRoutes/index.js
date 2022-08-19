@@ -1,5 +1,7 @@
 import express from "express"
 import foro from "../../controls/foroControl/index.js"
+import post_comments_valid from "../../middlewares/post_comments_valid/index.js"
+
 const Route = express.Router()
 
 //route for fetchin all the posts fo all the users for the main page
@@ -9,10 +11,10 @@ Route.get("/", )
 Route.get("/userposts/:id", (req,res)=> res.send("welcome to the user foro "+ req.params.id))
 
 //route for creating the post whit the user credentials
-Route.post("/createpost", foro.createPost )
+Route.post("/createpost", post_comments_valid, foro.createPost )
 
 //route for creatin comment for a post
-Route.post("/createcomment/post/:id", foro.createComments )
+Route.post("/createcomment/post/:id", post_comments_valid, foro.createComments )
 
 //route for fetchin the comments for a giving post
 Route.get("/comments/post/:id", (req,res)=> res.send("welcome to the user foro "+ req.params.id))
