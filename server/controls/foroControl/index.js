@@ -34,7 +34,7 @@ const foro = {
 
         
 
-        //find the post whit the post id, next find the user connected whit that post, next check if that user is the one in the token.
+        //find the post whit the post id, next check if that user_id in the post is the one in the token.
         
         Posts.findAll({where:{post_id:id}})
         .then(result=>{
@@ -59,7 +59,7 @@ const foro = {
                 }
                 else{
 
-                    //is not the owner of the post, son seh/he cant delte the post
+                    //is not the owner of the post, son seh/he cant delete the post
                     const error = new Error("you are not authorize to delete this post")
                     error.status = 403
                     next(error)
@@ -82,24 +82,35 @@ const foro = {
         const { id} = req.params
         const {comment} = req.body
 
-        Comments.create({
-            postPostId:id,
-            comment
+        Posts.findAll({where:{post_id:id}})
+        .then(result=>{
+            const post = result[0]
+            if(post){
+
+                Comments.create({
+                    postPostId:id,
+                    comment
+                })
+                .then(result=>{ res.json({message:"comment created", result})})
+                .catch(()=>{
+                    const error = new Error("An error has occur in the database, comment cant be created")
+                    error.status = 500
+                    next(error)
+                })
+
+
+
+            }
+            else{
+                const error = new Error("post dosent exist")
+                error.status = 400
+                next(error)
+            }
         })
-        .then(result=>{ res.json({message:"comment created", result})})
-        .catch(()=>{
-            const error = new Error("An error has occur in the database, comment cant be created")
-            error.status = 500
-            next(error)
-        })
+
+        
     }
 
-    
-
-
-
-
-    
 }
 
 export default foro
