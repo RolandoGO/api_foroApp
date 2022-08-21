@@ -4,14 +4,13 @@ dotenv.config()
 
 import corsConfig from "./middlewares/cors/index.js"
 import globalErrorHandler from "./middlewares/herrorHandlers/globalHerrorHandler.js"
+
 //database import
 import db from "./dbConfig.js"
 //database models import
 import UserModel from "./models/UserModel.js"
-
-
-
-
+import PostsModel from "./models/PostsModel.js"
+import CommentsModel from "./models/CommentsModel.js"
 
 //files for routes
 
@@ -60,8 +59,11 @@ async function starting(){
         //database conection and tables creation....
 
         await db.authenticate();
+        await UserModel.sync()
+        await PostsModel.sync()
+        await CommentsModel.sync()
         
-        await db.sync()
+      
         // await db.drop()
         console.log("conected to the database!!")
         
