@@ -25,9 +25,9 @@ Route.post("/createcomment/post/:id", post_comments_valid, post_delete_methods.c
 //route for deleting a post, and the comments are deleted whit it.
 Route.delete("/deletepost/:id", post_delete_methods.deletePost)
 
-Route.put("/updatepost", post_comments_valid, update_method.post_update)
+Route.put("/updatepost/:id", post_comments_valid, update_method.post_update)
 
-Route.put("/updatecomment", post_comments_valid, update_method.comment_update)
+Route.put("/updatecomment/:id", post_comments_valid, update_method.comment_update)
 
 
 

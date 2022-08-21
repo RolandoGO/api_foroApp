@@ -81,12 +81,14 @@ const post_delete_methods = {
 
         const { id} = req.params
         const {comment} = req.body
-        const {user_id} = req.user.id
+        const user_id = req.user.id
 
         Posts.findAll({where:{post_id:id}})
         .then(result=>{
             const post = result[0]
             if(post){
+
+                
 
                 Comments.create({
                     postPostId:id,
@@ -95,6 +97,7 @@ const post_delete_methods = {
                 })
                 .then(result=>{ res.json({message:"comment created", result})})
                 .catch(()=>{
+                   
                     const error = new Error("An error has occur in the database, comment cant be created")
                     error.status = 500
                     next(error)
