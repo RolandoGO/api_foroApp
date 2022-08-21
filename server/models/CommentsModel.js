@@ -18,7 +18,15 @@ const Comments = db.define("comments", {
       type: Sequelize.TEXT,
       allowNull: false
       
-    }
+    },
+    user_id:{
+
+    
+      type:Sequelize.INTEGER,
+      allowNull:false,
+  
+      
+   },
     
   });
 
