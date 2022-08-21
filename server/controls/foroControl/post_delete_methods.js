@@ -1,7 +1,7 @@
 import Posts from "../../models/PostsModel.js"
 import Comments from "../../models/CommentsModel.js"
 
-const foro = {
+const post_delete_methods = {
 
     createPost:(req,res,next)=>{
 
@@ -109,10 +109,10 @@ const foro = {
         })
 
         
-    }
+    },
+    
 
 }
 
-export default foro
-
+export default post_delete_methods
 
