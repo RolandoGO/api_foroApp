@@ -81,6 +81,7 @@ const post_delete_methods = {
 
         const { id} = req.params
         const {comment} = req.body
+        const {user_id} = req.user.id
 
         Posts.findAll({where:{post_id:id}})
         .then(result=>{
@@ -89,6 +90,7 @@ const post_delete_methods = {
 
                 Comments.create({
                     postPostId:id,
+                    user_id,
                     comment
                 })
                 .then(result=>{ res.json({message:"comment created", result})})
