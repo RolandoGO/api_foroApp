@@ -1,5 +1,5 @@
 import general_validation from "../general_validation_func.js";
-
+import generalErrorFunc from "../../../utils/generalErrorFunc.js"
 // function middleware for validating the inputs of the register data, passes the error to the next middleware, if not error gos to the register control
 export default function registerValidation(req,res, next){
 
@@ -25,18 +25,20 @@ export default function registerValidation(req,res, next){
             }
                 
             else {
-                const error = new Error ("you enter the wrong info for register, see the rules for each input")
-                error.status = 400
+                const error = "you enter the wrong info for register, see the rules for each input"
                 
-                next(error)
+                
+                next(generalErrorFunc(error,400))
         
             }
 
         }
         else{
-            const error = new Error("the data that you enter is for the login")
-            error.status = 400
-            next(error)        }
+            const error = "the data that you enter is for the login"
+            
+            
+            next(generalErrorFunc(error,400))        
+        }
         
     }
 

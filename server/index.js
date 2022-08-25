@@ -2,8 +2,12 @@ import express from "express"
 import dotenv from "dotenv"
 dotenv.config()
 
+//cors config import; ONLY RESPONSE TO THE URL IN THE CORS CONFIG FILE!!!!
 import corsConfig from "./middlewares/cors/index.js"
+
+//error handlers
 import globalErrorHandler from "./middlewares/herrorHandlers/globalHerrorHandler.js"
+import generalErrorFunc from "./utils/generalErrorFunc.js"
 
 //database import
 import db from "./dbConfig.js"
@@ -44,9 +48,8 @@ app.use("/foro", requestTokenCheck, foroRoute)
 
 app.use((req,res,next)=>{
 
-    const error = new Error("Page not Found")
-    error.status = 404
-    next(error)
+    const error = "Page not Found"
+    next(generalErrorFunc(error,404))
 })
 
 app.use(globalErrorHandler)

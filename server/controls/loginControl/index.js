@@ -1,6 +1,8 @@
 import Users from "../../models/UserModel.js"
 import bcryptjs from "bcryptjs"
 import loginTokenGenerate from "../../utils/loginTokenGenerate.js"
+import generalErrorFunc from "../../utils/generalErrorFunc.js"
+import generalResponseObj from "../../utils/generalResponseObj.js"
 
 export default async function loginControl(req,res,next){
 
@@ -26,23 +28,28 @@ export default async function loginControl(req,res,next){
                     const user_token = loginTokenGenerate(dbUser)
                     
                     Users.update({isLogIn:true},{where:{user_email: dbUser.user_email}})
-                    .then(res.json({message:"user Updated", token: user_token}))
+
+                    .then(()=>{
+                        const message = "user log in"
+                        const token = {user_token}
+                        res.json(generalResponseObj(token,message))
+                    })
 
                     // //ERRORS IN THE UPDATE
 
                     
-                    .catch(err=>{
+                    .catch(()=>{
                        
-                        const error= new Error("user status cant be cant be change")
-                        error.status=500
-                        next(error)
+                        const error = "user status cant be cant be change"
+                        
+                        next(generalErrorFunc(error,500))
                     })
                 }
                 //ERRORS IN THE PASSWORD MATCHIN
                 else{
-                    const error = new Error("incorrect password")
-                    error.status = 401
-                    next(error)
+                    const error = "incorrect password"
+                    
+                    next(generalErrorFunc(error,401))
                 }
 
             });
@@ -50,10 +57,8 @@ export default async function loginControl(req,res,next){
         }
         else{
             //ERRORS IN THE FINDING OF THE USER
-
-            const error = new Error("no user found, you have to register first")
-            error.status=403
-            next(error)
+            const error = "no user found, you have to register first"
+            next(generalErrorFunc(error,403))
         }
     })
     

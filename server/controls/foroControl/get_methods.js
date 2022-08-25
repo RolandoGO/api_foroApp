@@ -1,6 +1,10 @@
 import Posts from "../../models/PostsModel.js"
 import Comments from "../../models/CommentsModel.js"
-import get_methods_errorHandler from "../../utils/get_methods_errorHandler.js"
+import generalErrorFunc from "../../utils/generalErrorFunc.js"
+import generalResponseObj from "../../utils/generalResponseObj.js"
+
+//general msj for the error in all get request fails
+const errorMsj = "error finding the data in the database"
 
 const get_methods = {
 
@@ -12,17 +16,17 @@ const get_methods = {
         .then(result=>{
 
             if(result.length > 0){
-
-                res.json({message:"this are all the posts", result })
+                const message = "this are all the posts"
+                res.json(generalResponseObj(result, message))
             }
             else{
-
-                res.json({message:"no post found"})
+                const message = "no post found"
+                res.json(generalResponseObj(result, message))
                 
 
             }
         })
-        .catch(()=>get_methods_errorHandler(next))
+        .catch(()=>generalErrorFunc(errorMsj,500))
 
 
 
@@ -36,17 +40,17 @@ const get_methods = {
         .then(result=>{
 
             if(result.length > 0){
-
-                res.json({message:"this are all your posts", result })
+                const message = "this are all your posts"
+                res.json(generalResponseObj(result,message))
             }
             else{
-
-                res.json({message:"no post found"})
+                const message = "no post found"
+                res.json(generalResponseObj(result,message))
                 
 
             }
         })
-        .catch(()=>get_methods_errorHandler(next))
+        .catch(()=>generalErrorFunc(errorMsj,500))
 
 
     },
@@ -61,17 +65,17 @@ const get_methods = {
         .then(result=>{
 
             if(result.length > 0){
-
-                res.json({message:"this are all the comments for this post", result })
+                const message = "this are all the comments for this post"
+                res.json(generalResponseObj(result,message))
             }
             else{
-
-                res.json({message:"no comments found"})
+                const message = "no comments found"
+                res.json(generalResponseObj(result, message))
                 
 
             }
         })
-        .catch(()=>get_methods_errorHandler(next))
+        .catch(()=>generalErrorFunc(errorMsj,500))
 
 
     }

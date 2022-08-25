@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken"
 import dotenv from "dotenv"
 dotenv.config()
 import Users from "../../models/UserModel.js"
-
+import generalErrorFunc from "../../utils/generalErrorFunc.js"
 
 // function that takes the token in the headers of the request that the user has, and decode if it is the same token that was created in the login 
 
@@ -13,26 +13,28 @@ export default function requestTokenCheck(req,res,next){
 
     
     if(!tokenChek){
-        const err = new Error("token not found")
-        err.status = 401
+        const err = "token not found"
+        
 
-        next(err)
+        next(generalErrorFunc(err,401))
     }
 
     else {
         
-        jwt.verify(tokenChek, process.env.SECRETE_TOKEN_KEY, (err, user)=>{
+        jwt.verify(tokenChek, process.env.SECRETE_TOKEN_KEY, (error, user)=>{
 
-            if(err){
+            if(error){
 
-                const err = new Error("invalid token")
-                err.status = 403
+                const err = "invalid token"
+                
 
-                next(err)
+                next(generalErrorFunc(err,403))
 
             }
 
             else{
+
+                
                 //Checks if the user has the isLogIn propertie in true.
                 
                 Users.findAll({where:{user_id: user.id}})
@@ -41,21 +43,24 @@ export default function requestTokenCheck(req,res,next){
                   
 
                     if(result[0].isLogIn){
+                        //passing the user info in the token as user in the req object
                         req.user = user
                         next()
                     } 
 
                     else{
-                        const error = new Error("user is not log in")
-                        error.status = 403
-                        next(error)
+                        const error = "user is not log in"
+                        
+                        next(generalErrorFunc(error,401))
 
                     }
                 })
                 .catch(()=>{
-                    const error = new Error("cant find the user in db")
-                    error.status=500
-                    next(error)
+
+                    
+                    const error = "cant find the user in database"
+                    
+                    next(generalErrorFunc(error,500))
                 })
                 
                 

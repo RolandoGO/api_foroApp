@@ -1,5 +1,7 @@
 import Posts from "../../models/PostsModel.js"
 import Comments from "../../models/CommentsModel.js"
+import generalErrorFunc from "../../utils/generalErrorFunc.js"
+import generalResponseObj from "../../utils/generalResponseObj.js"
 
 const update_method = {
 
@@ -20,26 +22,30 @@ const update_method = {
                     //is the same user, he/she can delete post
                     
                     Posts.update({post:new_post}, {where:{post_id}})
-                    .then(result=>res.json({message:"post updated"}))
+                    .then(result=>{
+                        const message = "post updated"
+                        res.json(generalResponseObj(result,message))
+                    })
                     .catch(()=>{
-                        const error = new Error("cant update, something went wrong")
-                        error.status = 500
-                        next(error)
+                        const error = "cant update, something went wrong"
+                        
+                        next(generalErrorFunc(error,500))
                     })
                     
                 }
                 else{
 
                     //is not the owner of the post, son seh/he cant delete the post
-                    const error = new Error("you are not authorize to update this post")
-                    error.status = 403
-                    next(error)
+                    const error = "you are not authorize to update this post"
+                    
+                    next(generalErrorFunc(error,403))
 
                 }
 
             }
             else{
-                const error = new Error("post not found, error in id ")
+                const error = "post not found, error in id "
+                next(generalErrorFunc(error,404))
             }
         })
 
@@ -69,26 +75,31 @@ const update_method = {
                     //is the same user, he/she can delete post
                     
                     Comments.update({comment:new_comment}, {where:{comment_id}})
-                    .then(result=>res.json({message:"comment updated"}))
+                    .then(result=>{
+                        
+                        const message = "comment updated"
+                        res.json(generalResponseObj(result,message))
+                    })
                     .catch(()=>{
-                        const error = new Error("cant update, something went wrong")
-                        error.status = 500
-                        next(error)
+                        const error = "cant update, something went wrong in the database"
+                        
+                        next(generalErrorFunc(error,500))
                     })
                     
                 }
                 else{
 
                     //is not the owner of the post, son seh/he cant delete the post
-                    const error = new Error("you are not authorize to update this post")
-                    error.status = 403
-                    next(error)
+                    const error = "you are not authorize to update this post"
+                    
+                    next(generalErrorFunc(error,403))
 
                 }
 
             }
             else{
-                const error = new Error("comment not found, error in id ")
+                const error = "comment not found, error in id "
+                next(generalErrorFunc(error,404))
             }
         })
 

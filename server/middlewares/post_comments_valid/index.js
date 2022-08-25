@@ -1,3 +1,7 @@
+
+import generalErrorFunc from "../../utils/generalErrorFunc.js"
+
+
 export default function post_comments_valid(req,res,next){
 
 
@@ -7,25 +11,32 @@ export default function post_comments_valid(req,res,next){
     if(data){
 
         if(data.post){
+            
+                const post = data.post.toString()
+            if(post.length > 1){
 
-            if(data.post.length > 1)next()
+                
+                next()
+            }
             else{
 
-                const error = new Error("write something LARGER")
-                error.status = 400
-                next(error)
+                const error = "write something LARGER"
+                
+                next(generalErrorFunc(error,400))
 
             }
 
         }
         else if( data.comment){
 
-            if(data.comment.length > 0)next()
+            const comment = data.comment.toString()
+
+            if(comment.length > 0) next()
             else{
 
-                const error = new Error("cant be empty, write something")
-                error.status = 400
-                next(error)
+                const error = "cant be empty, write something"
+                
+                next(generalErrorFunc(error,400))
 
             }
 
@@ -33,18 +44,18 @@ export default function post_comments_valid(req,res,next){
         }
         else{
 
-            const error = new Error("cant be empty, write something")
-            error.status = 400
-            next(error)
+            const error = "cant be empty, write something"
+            
+            next(generalErrorFunc(error,400))
 
         }
 
     }
 
     else{
-        const error = new Error("there is no data in the request body")
-        error.status = 400
-        next(error)
+        const error = "there is no data in the request body"
+        
+        next(generalErrorFunc(error,400))
     }
 
 

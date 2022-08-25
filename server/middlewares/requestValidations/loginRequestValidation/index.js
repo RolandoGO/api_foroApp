@@ -1,5 +1,5 @@
 import general_validation from "../general_validation_func.js"
-
+import generalErrorFunc from "../../../utils/generalErrorFunc.js"
 
 //function middleware for validating the inputs data of the login, passes the error to the next middleware or activates the login control
 export default function loginValidation(req,res, next){
@@ -22,19 +22,19 @@ export default function loginValidation(req,res, next){
             }
                 
             else {
-                const error = new Error ("Email or password donset exist or wrong email or password, see the rules for each")
-                error.status = 400
+                const error = "Email or password donset exist or wrong email or password, see the rules for each"
                 
-                next(error)
+                
+                next(generalErrorFunc(error,400))
         
             }
 
         }
 
         else{
-            const error = new Error("you enter the data for the register process")
-            error.status = 400
-            next(error)
+            const error = "you enter the data for the register process"
+            
+            next(generalErrorFunc(error,400))
         }
     }
     

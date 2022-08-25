@@ -1,5 +1,7 @@
 import Posts from "../../models/PostsModel.js"
 import Comments from "../../models/CommentsModel.js"
+import generalErrorFunc from "../../utils/generalErrorFunc.js"
+import generalResponseObj from "../../utils/generalResponseObj.js"
 
 const post_delete_methods = {
 
@@ -16,12 +18,16 @@ const post_delete_methods = {
             userUserId:id
 
         })
-        .then(result=>res.json({data:post, message:"post created"}))
+        .then(result=>{
+            const message = "post created"
+            res.json(generalResponseObj(result, message))
+        
+        })
         .catch(()=>{
             
-            const error = new Error("cant create post, something is wrong whit the database")
-            error.status = 500
-            next(error)
+            const error = "cant create post, something is wrong whit the database"
+            
+            next(generalErrorFunc(error,500))
         })
 
 
@@ -47,12 +53,15 @@ const post_delete_methods = {
                     //is the same user, he/she can delete post
                     
                     Posts.destroy({where:{post_id: id}})
-                    .then(result=>res.json({message:"post deleted", result}))
+                    .then(result=>{
+                        const message = "post deleted"
+                        res.json(generalResponseObj(result,message))
+                    })
                     .catch(()=>{
                        
-                        const error = new Error("post cant be deleted, error in the database")
-                        error.status = 500
-                        next(error)
+                        const error = "post cant be deleted, error in the database"
+                        
+                        next(generalErrorFunc(error,500))
                     })
 
                     
@@ -60,15 +69,16 @@ const post_delete_methods = {
                 else{
 
                     //is not the owner of the post, son seh/he cant delete the post
-                    const error = new Error("you are not authorize to delete this post")
-                    error.status = 403
-                    next(error)
+                    const error = "you are not authorize to delete this post"
+                    
+                    next(generalErrorFunc(error,403))
 
                 }
 
             }
             else{
-                const error = new Error("post not found, error in id ")
+                const error = "post not found, error in id "
+                next(generalErrorFunc(error,404))
             }
         })
 
@@ -95,21 +105,25 @@ const post_delete_methods = {
                     user_id,
                     comment
                 })
-                .then(result=>{ res.json({message:"comment created", result})})
+                .then(result=>{
+                    const message = "comment created" 
+                    res.json(generalResponseObj(result,message))
+                
+                })
                 .catch(()=>{
                    
-                    const error = new Error("An error has occur in the database, comment cant be created")
-                    error.status = 500
-                    next(error)
+                    const error = "An error has occur in the database, comment cant be created"
+                    
+                    next(generalErrorFunc(error,500))
                 })
 
 
 
             }
             else{
-                const error = new Error("post dosent exist")
-                error.status = 400
-                next(error)
+                const error = "post dosent exist"
+                
+                next(generalErrorFunc(error,400))
             }
         })
 
